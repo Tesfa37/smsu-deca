@@ -1,0 +1,160 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* SMSU Brand Colors - Primary */
+    --primary-brown: 32 20 12; /* #5E5240 */
+    --primary-gold: 38 28 15; /* #A68849 */
+    --primary-foreground: 0 0 100%; /* White text on primary */
+
+    /* Secondary Colors - Accessible (WCAG 2.1 AA) */
+    --error: 0 72% 51%; /* #DC2626 - Red 600 */
+    --error-foreground: 0 0% 100%;
+    --success: 142 71% 45%; /* #16A34A - Green 600 */
+    --success-foreground: 0 0% 100%;
+    --warning: 20 91% 48%; /* #EA580C - Orange 600 */
+    --warning-foreground: 0 0% 100%;
+    --info: 199 89% 48%; /* #0284C7 - Sky 600 */
+    --info-foreground: 0 0% 100%;
+
+    /* Neutral Colors */
+    --background: 0 0% 100%;
+    --foreground: 32 20 12%; /* Match primary brown for text */
+
+    --card: 0 0% 100%;
+    --card-foreground: 32 20 12%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 32 20 12%;
+
+    --secondary: 38 28% 85%; /* Light gold tint */
+    --secondary-foreground: 32 20% 12%;
+
+    --muted: 38 15% 95%;
+    --muted-foreground: 32 15% 40%;
+
+    --accent: 38 28% 90%;
+    --accent-foreground: 32 20% 12%;
+
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 38 15% 85%;
+    --input: 38 15% 85%;
+    --ring: 32 20% 12%;
+
+    --radius: 0.5rem;
+
+    --chart-1: 38 28% 45%;
+    --chart-2: 32 20% 35%;
+    --chart-3: 142 71% 45%;
+    --chart-4: 199 89% 48%;
+    --chart-5: 20 91% 48%;
+  }
+
+  .dark {
+    /* Dark mode colors */
+    --primary-brown: 32 20% 70%;
+    --primary-gold: 38 50% 60%;
+    --primary-foreground: 32 20% 12%;
+
+    --background: 32 15% 8%;
+    --foreground: 38 15% 95%;
+
+    --card: 32 15% 10%;
+    --card-foreground: 38 15% 95%;
+
+    --popover: 32 15% 10%;
+    --popover-foreground: 38 15% 95%;
+
+    --secondary: 32 15% 15%;
+    --secondary-foreground: 38 15% 95%;
+
+    --muted: 32 15% 15%;
+    --muted-foreground: 38 15% 65%;
+
+    --accent: 32 15% 20%;
+    --accent-foreground: 38 15% 95%;
+
+    --destructive: 0 62% 50%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 32 15% 20%;
+    --input: 32 15% 20%;
+    --ring: 38 50% 60%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  /* Typography Styles */
+  h1 {
+    @apply text-h1-mobile md:text-h1 text-primary-brown;
+  }
+  h2 {
+    @apply text-h2-mobile md:text-h2 text-primary-brown;
+  }
+  h3 {
+    @apply text-h3-mobile md:text-h3 text-primary-brown;
+  }
+  h4 {
+    @apply text-h4-mobile md:text-h4 text-primary-brown;
+  }
+  h5 {
+    @apply text-h5-mobile md:text-h5 text-primary-brown;
+  }
+  h6 {
+    @apply text-h6-mobile md:text-h6 text-primary-brown;
+  }
+
+  /* Focus Styles for Accessibility (WCAG 2.1 AA) */
+  a:focus-visible,
+  button:focus-visible,
+  [role="button"]:focus-visible,
+  input:focus-visible,
+  textarea:focus-visible,
+  select:focus-visible {
+    @apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-background;
+  }
+
+  /* Ensure interactive elements have visible focus indicators */
+  *:focus-visible {
+    @apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-background;
+  }
+}
+
+@layer utilities {
+  /* Custom utility classes */
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* Smooth scrolling */
+  .smooth-scroll {
+    scroll-behavior: smooth;
+  }
+
+  /* Screen reader only utility */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+}
+
+
