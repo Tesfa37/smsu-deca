@@ -5,9 +5,9 @@
 @layer base {
   :root {
     /* SMSU Brand Colors - Primary */
-    --primary-brown: 32 20 12; /* #5E5240 */
-    --primary-gold: 38 28 15; /* #A68849 */
-    --primary-foreground: 0 0 100%; /* White text on primary */
+    --primary-brown: 32 19% 31%; /* #5E5240 */
+    --primary-gold: 41 38% 47%; /* #A68849 */
+    --primary-foreground: 0 0% 100%; /* White text on primary */
 
     /* Secondary Colors - Accessible (WCAG 2.1 AA) */
     --error: 0 72% 51%; /* #DC2626 - Red 600 */
@@ -21,34 +21,34 @@
 
     /* Neutral Colors */
     --background: 0 0% 100%;
-    --foreground: 32 20 12%; /* Match primary brown for text */
+    --foreground: 32 19% 31%; /* Match primary brown for text */
 
     --card: 0 0% 100%;
-    --card-foreground: 32 20 12%;
+    --card-foreground: 32 19% 31%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 32 20 12%;
+    --popover-foreground: 32 19% 31%;
 
-    --secondary: 38 28% 85%; /* Light gold tint */
-    --secondary-foreground: 32 20% 12%;
+    --secondary: 41 38% 85%; /* Light gold tint */
+    --secondary-foreground: 32 19% 31%;
 
     --muted: 38 15% 95%;
     --muted-foreground: 32 15% 40%;
 
-    --accent: 38 28% 90%;
-    --accent-foreground: 32 20% 12%;
+    --accent: 41 38% 90%;
+    --accent-foreground: 32 19% 31%;
 
     --destructive: 0 72% 51%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 38 15% 85%;
-    --input: 38 15% 85%;
-    --ring: 32 20% 12%;
+    --border: 41 15% 85%;
+    --input: 41 15% 85%;
+    --ring: 32 19% 31%;
 
     --radius: 0.5rem;
 
-    --chart-1: 38 28% 45%;
-    --chart-2: 32 20% 35%;
+    --chart-1: 41 38% 47%;
+    --chart-2: 32 19% 31%;
     --chart-3: 142 71% 45%;
     --chart-4: 199 89% 48%;
     --chart-5: 20 91% 48%;
@@ -56,9 +56,9 @@
 
   .dark {
     /* Dark mode colors */
-    --primary-brown: 32 20% 70%;
-    --primary-gold: 38 50% 60%;
-    --primary-foreground: 32 20% 12%;
+    --primary-brown: 32 19% 70%;
+    --primary-gold: 41 38% 60%;
+    --primary-foreground: 32 19% 15%;
 
     --background: 32 15% 8%;
     --foreground: 38 15% 95%;
@@ -83,7 +83,7 @@
 
     --border: 32 15% 20%;
     --input: 32 15% 20%;
-    --ring: 38 50% 60%;
+    --ring: 41 38% 60%;
   }
 }
 
