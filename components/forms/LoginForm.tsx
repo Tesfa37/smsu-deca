@@ -37,13 +37,23 @@ export function LoginForm() {
     setIsLoading(true);
     setError(null);
 
+    console.log("Attempting login with:", data.email);
+
     const result = await signIn(data.email, data.password);
 
+    console.log("Login result:", result);
+
     if (result.success) {
+      console.log("Login successful! Redirecting...");
       const redirect = searchParams.get("redirect") || "/dashboard";
-      router.push(redirect);
-      router.refresh();
+      
+      // Wait a moment for cookies to be set
+      await new Promise(resolve => setTimeout(resolve, 100));
+      
+      // Use window.location for a hard redirect (ensures middleware can read session)
+      window.location.href = redirect;
     } else {
+      console.error("Login failed:", result.error);
       setError(result.error || "An error occurred during sign in");
       setIsLoading(false);
     }
@@ -109,4 +119,5 @@ export function LoginForm() {
     </form>
   );
 }
+
 

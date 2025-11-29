@@ -1,9 +1,9 @@
 /**
  * Supabase Client Configuration
- * Basic client setup for browser-side usage
+ * Client-side setup using @supabase/ssr for better cookie handling
  */
 
-import { createClient as createSupabaseClient } from "@supabase/supabase-js";
+import { createBrowserClient } from "@supabase/ssr";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "";
@@ -15,15 +15,10 @@ if (!supabaseUrl || !supabaseAnonKey) {
 }
 
 /**
- * Creates a Supabase client for client-side usage
+ * Creates a Supabase client for client-side usage with automatic cookie handling
  */
 export function createClient() {
-  return createSupabaseClient(supabaseUrl, supabaseAnonKey, {
-    auth: {
-      persistSession: true,
-      autoRefreshToken: true,
-    },
-  });
+  return createBrowserClient(supabaseUrl, supabaseAnonKey);
 }
 
 // Export a singleton instance for convenience
