@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { Sidebar } from "@/components/layout/Sidebar";
 import { DashboardHeader } from "@/components/dashboard/DashboardHeader";
 import { getCurrentUser } from "@/lib/supabase/auth";
+import { Toaster } from "@/components/ui/toaster";
 import type { User } from "@supabase/supabase-js";
 
 export default function DashboardLayout({
@@ -65,6 +66,7 @@ export default function DashboardLayout({
           {children}
         </main>
       </div>
+      <Toaster />
     </div>
   );
 }
