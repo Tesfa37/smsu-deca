@@ -1,112 +1,78 @@
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Calendar, MapPin } from "lucide-react";
+import { Calendar } from "lucide-react";
+import { EventCard } from "@/components/events/EventCard";
+import { supabase } from "@/lib/supabase/client";
 import type { Event } from "@/lib/types";
 
-// Mock data for events - same as UpcomingEvents component plus more
-const upcomingEvents: Event[] = [
-  {
-    id: "1",
-    title: "DECA District Competition",
-    description:
-      "Compete against regional chapters in various business categories. Prepare your pitch and showcase your skills! This is your chance to advance to state competition.",
-    date: "2025-02-15",
-    location: "Minneapolis Convention Center",
-    category: "competition",
-  },
-  {
-    id: "2",
-    title: "Professional Development Workshop",
-    description:
-      "Learn essential business skills from industry professionals. Topics include networking, resume building, and interview techniques.",
-    date: "2025-01-20",
-    location: "SMSU Business Building, Room 204",
-    category: "workshop",
-  },
-  {
-    id: "3",
-    title: "Networking Mixer with Alumni",
-    description:
-      "Connect with successful DECA alumni working in various industries. Great opportunity for mentorship and career advice.",
-    date: "2025-01-10",
-    location: "SMSU Student Center",
-    category: "social",
-  },
-  {
-    id: "4",
-    title: "Monthly Chapter Meeting",
-    description:
-      "Join us for our regular chapter meeting. We'll discuss upcoming events, competition preparation, and chapter initiatives.",
-    date: "2025-01-07",
-    location: "SMSU Business Building, Room 101",
-    category: "meeting",
-  },
-  {
-    id: "5",
-    title: "Competition Prep Session",
-    description:
-      "Practice your role-plays and get feedback from experienced members and advisors. Bring your materials and be ready to practice!",
-    date: "2025-01-15",
-    location: "SMSU Business Building, Room 204",
-    category: "workshop",
-  },
-];
+// Enable ISR - revalidate every hour
+export const revalidate = 3600;
 
-const pastEvents: Event[] = [
-  {
-    id: "p1",
-    title: "Fall Kickoff Meeting",
-    description: "Welcome back event for all members",
-    date: "2024-09-15",
-    location: "SMSU Student Center",
-    category: "meeting",
-  },
-  {
-    id: "p2",
-    title: "State Competition",
-    description: "SMSU DECA members competed at state level",
-    date: "2024-03-10",
-    location: "St. Paul, MN",
-    category: "competition",
-  },
-  {
-    id: "p3",
-    title: "Industry Speaker Series",
-    description: "Local business leaders shared insights",
-    date: "2024-10-20",
-    location: "SMSU Campus",
-    category: "workshop",
-  },
-];
+async function getUpcomingEvents(): Promise<Event[]> {
+  try {
+    const { data, error } = await supabase
+      .from("events")
+      .select("*")
+      .gte("date", new Date().toISOString())
+      .order("date", { ascending: true })
+      .limit(10);
 
-function formatDate(dateString: string | Date): string {
-  const date = new Date(dateString);
-  return date.toLocaleDateString("en-US", {
-    weekday: "long",
-    month: "long",
-    day: "numeric",
-    year: "numeric",
-  });
+    if (error) {
+      console.error("Error fetching upcoming events:", error);
+      return [];
+    }
+
+    return (data || []).map((event) => ({
+      id: event.id,
+      title: event.title,
+      description: event.description,
+      date: event.date,
+      location: event.location,
+      imageUrl: event.image_url,
+      category: event.category as Event["category"],
+      registrationUrl: event.registration_url,
+    }));
+  } catch (error) {
+    console.error("Failed to fetch events:", error);
+    return [];
+  }
 }
 
-function getCategoryColor(category: Event["category"]): string {
-  const colors = {
-    competition: "bg-error/10 text-error border-error/20",
-    workshop: "bg-info/10 text-info border-info/20",
-    meeting: "bg-primary-gold/10 text-primary-brown border-primary-gold/20",
-    social: "bg-success/10 text-success border-success/20",
-    other: "bg-muted text-muted-foreground border-border",
-  };
-  return colors[category] || colors.other;
+async function getPastEvents(): Promise<Event[]> {
+  try {
+    const { data, error } = await supabase
+      .from("events")
+      .select("*")
+      .lt("date", new Date().toISOString())
+      .order("date", { ascending: false })
+      .limit(6);
+
+    if (error) {
+      console.error("Error fetching past events:", error);
+      return [];
+    }
+
+    return (data || []).map((event) => ({
+      id: event.id,
+      title: event.title,
+      description: event.description,
+      date: event.date,
+      location: event.location,
+      imageUrl: event.image_url,
+      category: event.category as Event["category"],
+      registrationUrl: event.registration_url,
+    }));
+  } catch (error) {
+    console.error("Failed to fetch past events:", error);
+    return [];
+  }
 }
 
-export default function EventsPage() {
+export default async function EventsPage() {
+  const [upcomingEvents, pastEvents] = await Promise.all([
+    getUpcomingEvents(),
+    getPastEvents(),
+  ]);
+
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
@@ -136,117 +102,47 @@ export default function EventsPage() {
               Mark your calendar and join us at these exciting events
             </p>
 
-            <div className="space-y-6">
-              {upcomingEvents.map((event) => (
-                <Card
-                  key={event.id}
-                  className="border-2 hover:border-primary-gold transition-all duration-300 hover:shadow-lg"
-                >
-                  <CardHeader>
-                    <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
-                      <div className="flex-1">
-                        <div className="flex items-center gap-3 mb-3">
-                          <span
-                            className={`text-xs font-medium px-3 py-1 rounded-full border capitalize ${getCategoryColor(
-                              event.category
-                            )}`}
-                          >
-                            {event.category}
-                          </span>
-                        </div>
-                        <CardTitle className="text-2xl mb-2">
-                          {event.title}
-                        </CardTitle>
-                        <CardDescription className="text-base">
-                          {event.description}
-                        </CardDescription>
-                      </div>
-                    </div>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                      <div className="flex items-start gap-3">
-                        <Calendar className="h-5 w-5 text-primary-gold flex-shrink-0 mt-0.5" />
-                        <div>
-                          <p className="text-sm font-semibold text-foreground">
-                            {formatDate(event.date)}
-                          </p>
-                          <p className="text-sm text-muted-foreground">
-                            {/* Placeholder time - would come from actual event data */}
-                            6:00 PM - 8:00 PM
-                          </p>
-                        </div>
-                      </div>
-                      <div className="flex items-start gap-3">
-                        <MapPin className="h-5 w-5 text-primary-gold flex-shrink-0 mt-0.5" />
-                        <div>
-                          <p className="text-sm font-semibold text-foreground">
-                            {event.location}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="flex flex-col sm:flex-row gap-3">
-                      <Button
-                        className="bg-primary-gold hover:bg-primary-gold/90 text-white"
-                        disabled
-                      >
-                        Add to Calendar (Coming Soon)
-                      </Button>
-                      <Button variant="outline" asChild>
-                        <a href={`mailto:smsudeca@smsu.edu?subject=Question about ${event.title}`}>
-                          Ask a Question
-                        </a>
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
+            {upcomingEvents.length > 0 ? (
+              <div className="space-y-6">
+                {upcomingEvents.map((event) => (
+                  <EventCard key={event.id} event={event} />
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-12">
+                <p className="text-lg text-muted-foreground mb-4">
+                  No upcoming events scheduled at this time.
+                </p>
+                <p className="text-sm text-muted-foreground">
+                  Check back soon or follow us on social media for updates!
+                </p>
+              </div>
+            )}
           </div>
         </div>
       </section>
 
       {/* Past Events */}
-      <section className="py-16 md:py-24 bg-accent/30">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-6xl mx-auto">
-            <h2 className="text-3xl md:text-4xl font-bold text-primary-brown mb-4 text-center">
-              Past Events
-            </h2>
-            <p className="text-lg text-muted-foreground text-center mb-12">
-              See what we&apos;ve been up to
-            </p>
+      {pastEvents.length > 0 && (
+        <section className="py-16 md:py-24 bg-accent/30">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="max-w-6xl mx-auto">
+              <h2 className="text-3xl md:text-4xl font-bold text-primary-brown mb-4 text-center">
+                Past Events
+              </h2>
+              <p className="text-lg text-muted-foreground text-center mb-12">
+                See what we&apos;ve been up to
+              </p>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {pastEvents.map((event) => (
-                <Card
-                  key={event.id}
-                  className="border-2 hover:border-primary-gold/50 transition-colors"
-                >
-                  <CardHeader>
-                    <span
-                      className={`text-xs font-medium px-2.5 py-1 rounded-full border capitalize inline-block w-fit mb-3 ${getCategoryColor(
-                        event.category
-                      )}`}
-                    >
-                      {event.category}
-                    </span>
-                    <CardTitle className="text-lg">{event.title}</CardTitle>
-                    <CardDescription>{event.description}</CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                      <Calendar className="h-4 w-4" />
-                      {formatDate(event.date)}
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {pastEvents.map((event) => (
+                  <EventCard key={event.id} event={event} variant="compact" />
+                ))}
+              </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* CTA Section */}
       <section className="py-16 md:py-24 bg-primary-brown text-white">
@@ -285,4 +181,3 @@ export default function EventsPage() {
     </div>
   );
 }
-
