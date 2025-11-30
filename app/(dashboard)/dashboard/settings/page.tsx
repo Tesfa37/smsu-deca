@@ -27,7 +27,7 @@ export default function SettingsPage() {
             <Settings className="mx-auto h-16 w-16 text-muted-foreground mb-4" />
             <h3 className="text-lg font-semibold mb-2">Dashboard Settings</h3>
             <p className="text-muted-foreground max-w-md mx-auto">
-              This feature is currently under development. You'll soon be able to
+              This feature is currently under development. You&apos;ll soon be able to
               customize your dashboard preferences, manage your account, and configure
               chapter settings.
             </p>

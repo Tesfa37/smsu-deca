@@ -27,7 +27,7 @@ export default function ResultsPage() {
             <Trophy className="mx-auto h-16 w-16 text-muted-foreground mb-4" />
             <h3 className="text-lg font-semibold mb-2">Competition Results Management</h3>
             <p className="text-muted-foreground max-w-md mx-auto">
-              This feature is currently under development. You'll soon be able to add,
+              This feature is currently under development. You&apos;ll soon be able to add,
               edit, and showcase competition results from your DECA chapter.
             </p>
           </div>

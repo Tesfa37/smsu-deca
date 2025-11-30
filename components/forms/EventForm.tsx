@@ -23,7 +23,7 @@ const eventFormSchema = z.object({
     .url("Must be a valid URL")
     .optional()
     .or(z.literal("")),
-  is_featured: z.boolean().optional().default(false),
+  is_featured: z.boolean(),
 });
 
 type EventFormData = z.infer<typeof eventFormSchema>;
@@ -48,17 +48,21 @@ export function EventForm({ event, onSuccess, onCancel }: EventFormProps) {
       ? {
           title: event.title,
           description: event.description,
-          date: event.date
-            ? new Date(event.date).toISOString().slice(0, 16)
-            : "",
+          date: new Date(event.date).toISOString().slice(0, 16),
           location: event.location,
           category: event.category,
           image_url: event.image_url || "",
           registration_url: event.registration_url || "",
-          is_featured: event.is_featured || false,
+          is_featured: event.is_featured ?? false,
         }
       : {
+          title: "",
+          description: "",
+          date: "",
+          location: "",
           category: "meeting",
+          image_url: "",
+          registration_url: "",
           is_featured: false,
         },
   });
@@ -91,7 +95,8 @@ export function EventForm({ event, onSuccess, onCancel }: EventFormProps) {
           // Handle validation errors
           result.details.forEach(
             (err: { field: string; message: string }) => {
-              setError(err.field as keyof EventFormData, {
+              const fieldName = err.field as keyof EventFormData;
+              setError(fieldName, {
                 type: "server",
                 message: err.message,
               });

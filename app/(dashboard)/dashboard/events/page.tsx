@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
 import {
   Table,
   TableBody,
@@ -42,7 +41,6 @@ export default function EventsPage() {
   const [deletingEvent, setDeletingEvent] = useState<Event | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
   const { toast } = useToast();
-  const router = useRouter();
 
   // Fetch events
   const fetchEvents = async () => {
@@ -70,6 +68,7 @@ export default function EventsPage() {
 
   useEffect(() => {
     fetchEvents();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Handle delete

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, use } from "react";
 import { useRouter } from "next/navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { EventForm } from "@/components/forms/EventForm";
@@ -12,8 +12,9 @@ import type { Event } from "@/lib/types";
 export default function EditEventPage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
+  const { id } = use(params);
   const [event, setEvent] = useState<Event | null>(null);
   const [loading, setLoading] = useState(true);
   const { toast } = useToast();
@@ -23,7 +24,7 @@ export default function EditEventPage({
     const fetchEvent = async () => {
       try {
         setLoading(true);
-        const response = await fetch(`/api/events/${params.id}`);
+        const response = await fetch(`/api/events/${id}`);
 
         if (!response.ok) {
           throw new Error("Failed to fetch event");
@@ -45,7 +46,7 @@ export default function EditEventPage({
     };
 
     fetchEvent();
-  }, [params.id, router, toast]);
+  }, [id, router, toast]);
 
   const handleSuccess = () => {
     toast({
@@ -75,7 +76,7 @@ export default function EditEventPage({
       <div className="text-center py-12">
         <h3 className="text-lg font-semibold mb-2">Event not found</h3>
         <p className="text-muted-foreground mb-4">
-          The event you're looking for doesn't exist or has been deleted.
+          The event you&apos;re looking for doesn&apos;t exist or has been deleted.
         </p>
         <Button onClick={() => router.push("/dashboard/events")}>
           <ArrowLeft className="mr-2 h-4 w-4" />

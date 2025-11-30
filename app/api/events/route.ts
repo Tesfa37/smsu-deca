@@ -18,7 +18,7 @@ const createEventSchema = z.object({
  * GET /api/events
  * Fetch all events from Supabase
  */
-export async function GET(request: NextRequest) {
+export async function GET(_request: NextRequest) {
   try {
     const supabase = await createServerSupabaseClient();
 
@@ -79,7 +79,7 @@ export async function POST(request: NextRequest) {
     const validationResult = createEventSchema.safeParse(body);
 
     if (!validationResult.success) {
-      const errors = validationResult.error.errors.map((err) => ({
+      const errors = validationResult.error.issues.map((err) => ({
         field: err.path.join("."),
         message: err.message,
       }));

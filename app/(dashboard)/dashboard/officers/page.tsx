@@ -27,8 +27,8 @@ export default function OfficersPage() {
             <Users className="mx-auto h-16 w-16 text-muted-foreground mb-4" />
             <h3 className="text-lg font-semibold mb-2">Officer Management</h3>
             <p className="text-muted-foreground max-w-md mx-auto">
-              This feature is currently under development. You'll soon be able to add,
-              edit, and manage your chapter's officer profiles and positions.
+              This feature is currently under development. You&apos;ll soon be able to add,
+              edit, and manage your chapter&apos;s officer profiles and positions.
             </p>
           </div>
         </CardContent>

@@ -6,13 +6,14 @@ export interface Event {
   id: string;
   title: string;
   description: string;
-  date: string | Date;
+  date: string;
   location: string;
-  imageUrl?: string;
+  image_url?: string | null;
   category: "meeting" | "competition" | "workshop" | "social" | "other";
-  registrationUrl?: string;
-  createdAt?: string | Date;
-  updatedAt?: string | Date;
+  registration_url?: string | null;
+  is_featured?: boolean;
+  created_at?: string;
+  updated_at?: string;
 }
 
 export interface CompetitionResult {

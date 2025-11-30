@@ -120,13 +120,13 @@ export function EventCard({ event, variant = "default" }: EventCardProps) {
         </div>
 
         <div className="flex flex-col sm:flex-row gap-3">
-          {event.registrationUrl ? (
+          {event.registration_url ? (
             <Button
               asChild
               className="bg-primary-gold hover:bg-primary-gold/90 text-white"
             >
               <a
-                href={event.registrationUrl}
+                href={event.registration_url}
                 target="_blank"
                 rel="noopener noreferrer"
               >
